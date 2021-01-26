@@ -12,7 +12,7 @@
  // Creating our initial map object
 // We set the longitude, latitude, and the starting zoom level
 // This gets inserted into the div with an id of 'map'
-var myMap = L.map("map", {
+var myMap = L.map("mapid", {
   center: [41.87, -87.62],
   zoom: 13
 });
@@ -26,4 +26,4 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
   zoomOffset: -1,
   id: "mapbox/streets-v11",
   accessToken: API_KEY
-}).addTo(myMap);
+ }).addTo(myMap);
