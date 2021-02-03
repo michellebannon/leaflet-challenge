@@ -1,20 +1,14 @@
-// // creates the map object wich is defined with L.map method.  
-// var allquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
-
+// // creates the map object which is defined with L.map method.  
+var allquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
+// console.log(all)
   
-// // //create data.feature function to get the data from the URL 
-// // d3.json(allquakesURL, function(data) {
-// // //send data to the to createFeatures object
-// //   createFeatures(data.features);
-// //   console.log
-//  })
 
  // Creating our initial map object
 // We set the longitude, latitude, and the starting zoom level
 // This gets inserted into the div with an id of 'map'
 var myMap = L.map("mapid", {
-  center: [41.87, -87.62],
-  zoom: 13
+  center: [40, 10],
+  zoom: 3
 });
 
 // Adding a tile layer (the background map image) to our map
@@ -27,3 +21,31 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
   id: "mapbox/streets-v11",
   accessToken: API_KEY
  }).addTo(myMap);
+
+d3.json(allquakesURL, data =>{
+  var features = data.features;
+
+  features.forEach(obj => {
+    var lat = obj.geometry.coordinates[1];
+    var lon = obj.geometry.coordinates[0];
+    var depth = obj.geometry.coordinates[2];
+    var mag = obj.properties.mag;
+    var place = obj.properties.place;
+
+    L.circle([lat,lon],{'radius': 30000 * mag, fillColor: getColor(mag), color: 'white', fillOpacity: 1})
+      .bindPopup(`${place}<br> Magnitude: ${mag}`)
+      .addTo(myMap)
+// add color legend
+  });
+  function getColor(mag) {
+
+    if (mag>4) {
+      return 'red'
+    } else if (mag > 2 ) {
+      return 'orange'
+    } else {
+      return 'green'
+    }
+  };
+});
+
