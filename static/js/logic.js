@@ -2,9 +2,8 @@
 var allquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
 // console.log(all)
   
-
- // Creating our initial map object
-// We set the longitude, latitude, and the starting zoom level
+// Creating our initial map object
+// We set the longitude, latitude,and the starting zoom level
 // This gets inserted into the div with an id of 'map'
 var myMap = L.map("mapid", {
   center: [40, 10],
@@ -32,20 +31,27 @@ d3.json(allquakesURL, data =>{
     var mag = obj.properties.mag;
     var place = obj.properties.place;
 
+// Addes circle objects to the map
     L.circle([lat,lon],{'radius': 30000 * mag, fillColor: getColor(mag), color: 'white', fillOpacity: 1})
       .bindPopup(`${place}<br> Magnitude: ${mag}`)
       .addTo(myMap)
-// add color legend
   });
+//  funciton for getting the color on the map
   function getColor(mag) {
-
-    if (mag>4) {
+// this sets the color to the circle based on the magnitude of the earthquake
+    if (mag > 4) {
       return 'red'
     } else if (mag > 2 ) {
       return 'orange'
     } else {
-      return 'green'
+      return 'green'    }
+  }; 
+ // add color legend   
+//  var legend = L.control({position: 'bottomright'});
+//       legend.onAdd = function(getColor) {
+        
+//   legend.addTo(map);
     }
-  };
+
 });
 
